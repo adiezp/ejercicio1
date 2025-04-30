@@ -1,23 +1,36 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import{
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+} from "react";
+import { Character } from "../types/Character";
 
-// Tipo genérico para cualquier dato que queramos gestionar en el contexto
-type GlobalContextType = {
-  [key: string]: any; // Guarda cualquier dato que queramos compartir
+type GlobalState = {
+  characters: Character[] | null;
+  selectedCharacter: Character | null;
 };
 
-type GlobalContextProviderProps = {
-  children: React.ReactNode;
+type GlobalContextType = {
+  globalState: GlobalState;
+  updateGlobalState: <K extends keyof GlobalState>(key: K, value: GlobalState[K]) => void;
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
-export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children }) => {
-  const [globalState, setGlobalState] = useState<GlobalContextType>({});
+export const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
+  const [globalState, setGlobalState] = useState<GlobalState>({
+    characters: null,
+    selectedCharacter: null,
+  });
 
-  const updateGlobalState = useCallback((key: string, value: any) => {
-    setGlobalState((prev) => ({ ...prev, [key]: value }));
-  }, []);
-  
+  const updateGlobalState = useCallback(
+    <K extends keyof GlobalState>(key: K, value: GlobalState[K]) => {
+      setGlobalState((prev) => ({ ...prev, [key]: value }));
+    },
+    []
+  );
 
   return (
     <GlobalContext.Provider value={{ globalState, updateGlobalState }}>
@@ -26,7 +39,6 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ ch
   );
 };
 
-// Hook personalizado para acceder al contexto
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);
   if (!context) {

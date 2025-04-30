@@ -27,9 +27,13 @@ export function useFetch<T>(url: string) {
         if (isMounted) {
           setState({ data, error: null, isLoading: false });
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (isMounted) {
-          setState({ data: null, error: err.message, isLoading: false });
+          let errorMessage = "Unknown error";
+          if (err instanceof Error) {
+            errorMessage = err.message;
+          }
+          setState({ data: null, error: errorMessage, isLoading: false });
         }
       }
     };

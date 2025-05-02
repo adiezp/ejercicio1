@@ -2,9 +2,9 @@ import React from "react";
 import { useFetch } from "../hooks/useFetch";
 import { useGlobalContext } from "../context/GlobalContext";
 import { Character } from "../types/Character";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
-export const CharacterList: React.FC = () => {
+export const CharacterList = () => {
   const { data, error, isLoading } = useFetch<{ results: Character[] }>(
     "https://rickandmortyapi.com/api/character"
   );

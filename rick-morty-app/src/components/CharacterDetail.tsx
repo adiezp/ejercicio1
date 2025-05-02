@@ -3,7 +3,7 @@ import { useGlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 
 
-export const CharacterDetail: React.FC = () => {
+export const CharacterDetail = () => {
   const { globalState } = useGlobalContext();
   const selectedCharacter = globalState.selectedCharacter;
   const navigate = useNavigate();

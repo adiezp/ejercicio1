@@ -1,11 +1,11 @@
 import React from "react";
-import { useFetch } from "../hooks/useFetch";
+import { useApi } from "../hooks/useApi";
 import { useGlobalContext } from "../context/GlobalContext";
 import { Character } from "../types/Character";
 import { useNavigate} from "react-router-dom";
 
 export const CharacterList = () => {
-  const { data, error, isLoading } = useFetch<{ results: Character[] }>(
+  const { data, error, isLoading } = useApi<{ results: Character[] }>(
     "https://rickandmortyapi.com/api/character"
   );
   const { globalState, updateGlobalState } = useGlobalContext();
